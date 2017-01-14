@@ -31,6 +31,11 @@ public class BootService extends IntentService {
             if(reminder.getType() == Reminder.TYPE_LOCATION_REMINDER) {
                 ReminderManager.createGeofenceForReminder(locationProvider, reminder, this);
             }else{
+                if(reminder.getTimestamp() < System.currentTimeMillis()) {
+                    DBAccessor.getInstance().updateCompleted(reminder.getId());
+                    continue;
+                }
+
                 ReminderManager.createAlarmForReminder(reminder, this);
             }
         }

@@ -45,6 +45,19 @@ public class Reminder implements Parcelable {
         this.latitude = latitude;
         this.longitude = longitude;
         this.completed = completed;
+        verify();
+    }
+
+    private void verify() {
+        if(type == TYPE_TIME_REMINDER) {
+            if(timestamp <= 0)
+                throw new IllegalArgumentException("Reminder time cannot be zero or less");
+        }else{
+            if(latitude > 90 || latitude < -90)
+                throw new IllegalArgumentException("Latitude can't be less than -90 or more than 90");
+            if(longitude > 180 || longitude < -180)
+                throw new IllegalArgumentException("Longitude can't be less than -180 or more than 180");
+        }
     }
 
     public long getId() {

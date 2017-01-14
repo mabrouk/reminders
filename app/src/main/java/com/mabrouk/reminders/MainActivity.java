@@ -5,10 +5,8 @@ import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +15,7 @@ import android.widget.Spinner;
 import com.mabrouk.reminders.adapter.ReminderAdapter;
 import com.mabrouk.reminders.db.DBAccessor;
 import com.mabrouk.reminders.model.Reminder;
+import com.mabrouk.reminders.util.ReminderApplication;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        addReminderButton.setOnClickListener(v -> ReminderForm.startInstanceForResult(this, ADD_REQUEST_CODE));
+        addReminderButton.setOnClickListener(v -> ReminderFormActivity.startInstanceForResult(this, ADD_REQUEST_CODE));
 
         Observable.just(0)
                 .map(dummy -> DBAccessor.getInstance().getActiveReminders())
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == ADD_REQUEST_CODE && resultCode == RESULT_OK) {
-            Reminder reminder = data.getParcelableExtra(ReminderForm.EXTRA_RESULT);
+            Reminder reminder = data.getParcelableExtra(ReminderFormActivity.EXTRA_RESULT);
             activeAdapter.addReminder(reminder);
         }else {
             super.onActivityResult(requestCode, resultCode, data);

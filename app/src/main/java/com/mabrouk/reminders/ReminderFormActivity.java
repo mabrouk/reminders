@@ -39,12 +39,12 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ReminderForm extends AppCompatActivity implements DatePickerFragment.OnDateSelectedListener,
+public class ReminderFormActivity extends AppCompatActivity implements DatePickerFragment.OnDateSelectedListener,
         TimePickerFragment.OnTimeSelectedListener, OnMapReadyCallback {
     public static final String EXTRA_RESULT = "reminder_result";
 
     public static void startInstanceForResult(Activity other, int requestCode) {
-        Intent intent = new Intent(other, ReminderForm.class);
+        Intent intent = new Intent(other, ReminderFormActivity.class);
         other.startActivityForResult(intent, requestCode);
     }
 
@@ -110,7 +110,7 @@ public class ReminderForm extends AppCompatActivity implements DatePickerFragmen
             }else if(locationButton.isChecked()) {
                 createLocationReminder();
             }else{
-                Toast.makeText(ReminderForm.this, "Select type of reminder", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReminderFormActivity.this, "Select type of reminder", Toast.LENGTH_SHORT).show();
             }
         });
 

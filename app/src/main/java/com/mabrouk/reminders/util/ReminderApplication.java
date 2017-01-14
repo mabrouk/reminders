@@ -1,9 +1,8 @@
-package com.mabrouk.reminders;
+package com.mabrouk.reminders.util;
 
 import android.app.Application;
 
 import com.mabrouk.reminders.db.DBAccessor;
-import com.mabrouk.reminders.util.RxBus;
 
 /**
  * Created by ahmad on 1/13/17.

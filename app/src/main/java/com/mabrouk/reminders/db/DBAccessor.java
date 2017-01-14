@@ -16,6 +16,7 @@ import java.util.List;
 
 public class DBAccessor {
     static final String DB_NAME = "reminders.db";
+    static final String DB_TEST_NAME = "reminders_test.db";
     static DBAccessor instance;
 
     public static DBAccessor getInstance() {
@@ -26,6 +27,13 @@ public class DBAccessor {
         instance = new DBAccessor(context, DB_NAME);
     }
 
+    public static void initForTesting(Context context) {
+        if(instance != null)
+            instance.dbHelper.close();
+
+        context.deleteDatabase(DB_TEST_NAME);
+        instance = new DBAccessor(context, DB_TEST_NAME);
+    }
     DBHelper dbHelper;
     private DBAccessor(Context context, String name){
         dbHelper = new DBHelper(context, name);

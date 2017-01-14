@@ -25,8 +25,14 @@
             android:screenOrientation="portrait"></activity>
 
         <receiver android:name=".receivers.TimeReminderReceiver" />
+        <receiver android:name=".receivers.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
 
         <service android:name=".services.LocationReminderService" />
+        <service android:name=".services.BootService" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

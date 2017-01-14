@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_REQUEST_CODE = 1;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         busSubscription = ReminderApplication.getRxBusInstance().getObservable()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::reminderCompleted);
     }
 

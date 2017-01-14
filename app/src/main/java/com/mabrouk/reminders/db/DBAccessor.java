@@ -54,7 +54,7 @@ public class DBAccessor {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         long id = db.insert(ReminderTable.TABLE_NAME, null, ReminderMapper.valuesOfReminder(source));
         if(id != -1) {
-            return ReminderMapper.addIdToReminder(id, source);
+            return Reminder.reminderAddingIdToReminder(id, source);
         }else{
             return null;
         }

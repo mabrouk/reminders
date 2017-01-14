@@ -11,9 +11,11 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.mabrouk.reminders.R;
+import com.mabrouk.reminders.ReminderApplication;
 import com.mabrouk.reminders.db.DBAccessor;
 import com.mabrouk.reminders.model.Reminder;
 import com.mabrouk.reminders.util.NotificationUtil;
+import com.mabrouk.reminders.util.RxBus;
 
 /**
  * Created by ahmad on 1/13/17.
@@ -31,5 +33,9 @@ public class TimeReminderReceiver extends BroadcastReceiver{
         DBAccessor.getInstance().updateCompleted(reminder.getId());
 
         NotificationUtil.createNotificationForReminder(reminder, context);
+        RxBus bus = ReminderApplication.getRxBusInstance();
+        if(bus.hasObservers()) {
+            bus.send(reminder);
+        }
     }
 }

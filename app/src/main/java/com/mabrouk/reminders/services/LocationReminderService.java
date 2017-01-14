@@ -11,9 +11,11 @@ import android.util.Log;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.mabrouk.reminders.R;
+import com.mabrouk.reminders.ReminderApplication;
 import com.mabrouk.reminders.db.DBAccessor;
 import com.mabrouk.reminders.model.Reminder;
 import com.mabrouk.reminders.util.NotificationUtil;
+import com.mabrouk.reminders.util.RxBus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,5 +57,9 @@ public class LocationReminderService extends IntentService {
         }
 
         NotificationUtil.createNotificationForReminder(reminder, this);
+        RxBus bus = ReminderApplication.getRxBusInstance();
+        if(bus.hasObservers()) {
+            bus.send(reminder);
+        }
     }
 }

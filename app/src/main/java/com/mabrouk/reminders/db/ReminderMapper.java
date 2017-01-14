@@ -38,13 +38,4 @@ class ReminderMapper {
         values.put(ReminderTable.COLUMN_LONGITUDE, reminder.getLongitude());
         return values;
     }
-
-    static Reminder addIdToReminder(long id, Reminder source) {
-        if(source.getType() == Reminder.TYPE_LOCATION_REMINDER) {
-            return Reminder.createLocationReminder(id, source.getName(), source.getLatitude(), source.getLongitude(),
-                    source.isCompleted());
-        }else{
-            return Reminder.createTimeReminder(id, source.getName(), source.getTimestamp(), source.isCompleted());
-        }
-    }
 }

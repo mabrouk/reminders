@@ -19,6 +19,15 @@ public class Reminder implements Parcelable {
                                                   boolean completed) {
         return new Reminder(id, TYPE_LOCATION_REMINDER, name, 0, latitude, longitude, completed);
     }
+    
+    public static Reminder reminderAddingIdToReminder(long id, Reminder other) {
+        if(other.getType() == Reminder.TYPE_LOCATION_REMINDER) {
+            return createLocationReminder(id, other.getName(), other.getLatitude(), other.getLongitude(),
+                    other.isCompleted());
+        }else{
+            return createTimeReminder(id, other.getName(), other.getTimestamp(), other.isCompleted());
+        }
+    }
 
     long id;
     int type;
@@ -94,8 +103,8 @@ public class Reminder implements Parcelable {
 
     public static final Parcelable.Creator<Reminder> CREATOR = new Parcelable.Creator<Reminder>() {
         @Override
-        public Reminder createFromParcel(Parcel source) {
-            return new Reminder(source);
+        public Reminder createFromParcel(Parcel other) {
+            return new Reminder(other);
         }
 
         @Override

@@ -21,6 +21,7 @@ import com.mabrouk.reminders.model.Reminder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
+import rx.Subscription;
 
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_REQUEST_CODE = 1;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     ReminderAdapter activeAdapter;
     ReminderAdapter completedAdapter;
+
+    Subscription busSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +72,17 @@ public class MainActivity extends AppCompatActivity {
                     if(spinner.getSelectedItemPosition() == 1)
                         recyclerView.setAdapter(completedAdapter);
                 });
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+
+        busSubscription = ReminderApplication.getRxBusInstance().getObservable()
+                .subscribe(this::reminderCompleted);
+    }
+
+    void reminderCompleted(Object object) {
+        if(object instanceof Reminder) {
+            Reminder reminder = (Reminder) object;
+            activeAdapter.removeReminder(reminder);
+            completedAdapter.addReminder(reminder);
+        }
     }
 
     @Override
@@ -81,5 +93,11 @@ public class MainActivity extends AppCompatActivity {
         }else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        busSubscription.unsubscribe();
     }
 }

@@ -38,6 +38,7 @@ public class ReminderManager {
         Intent intent = new Intent(context, LocationReminderService.class);
         intent.putExtra(LocationReminderService.EXTRA_REMINDER, reminder);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         locationProvider.addGeofences(pendingIntent, request)
         .subscribe(status -> Log.d("ZZZ", "geo succ " + status), throwable -> throwable.printStackTrace());
     }
@@ -47,7 +48,7 @@ public class ReminderManager {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(context, TimeReminderReceiver.class);
         alarmIntent.putExtra(TimeReminderReceiver.EXTRA_REMINDER, reminder);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int)reminder.getId(), alarmIntent, 0);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, reminder.getTimestamp(), pendingIntent);
